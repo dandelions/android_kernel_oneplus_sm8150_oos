@@ -401,6 +401,7 @@ CHECKFLAGS     := -D__linux__ -Dlinux -D__STDC__ -Dunix -D__unix__ \
 		  -Wbitwise -Wno-return-void $(CF)
 NOSTDINC_FLAGS  =
 CFLAGS_MODULE   =
+CFLAGS_MODULE += -fPIC
 AFLAGS_MODULE   =
 LDFLAGS_MODULE  =
 CFLAGS_KERNEL	=
@@ -429,6 +430,7 @@ KBUILD_CFLAGS   := -Wall -Wundef -Wstrict-prototypes -Wno-trigraphs \
 		   -fno-strict-aliasing -fno-common -fshort-wchar \
 		   -Werror-implicit-function-declaration \
 		   -Wno-format-security \
+           -fPIC \
 		   -std=gnu89
 ifeq ($(TARGET_BOARD_TYPE),auto)
 KBUILD_CFLAGS    += -DCONFIG_PLATFORM_AUTO
@@ -755,8 +757,6 @@ else
 KBUILD_CFLAGS   += -O2
 endif
 endif
-
-KBUILD_CFLAGS += -fPIC
 
 KBUILD_CFLAGS += $(call cc-ifversion, -lt, 0409, \
 			$(call cc-disable-warning,maybe-uninitialized,))
