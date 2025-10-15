@@ -767,8 +767,10 @@ KBUILD_CFLAGS	+= $(call cc-option,--param=allow-store-data-races=0)
 # check for 'asm goto'
 ifeq ($(shell $(CONFIG_SHELL) $(srctree)/scripts/gcc-goto.sh $(CC) $(KBUILD_CFLAGS)), y)
 	KBUILD_CFLAGS += -DCC_HAVE_ASM_GOTO
-	KBUILD_AFLAGS += -DCC_HAVE_ASM_GOTO
+	KBUILD_AFLAGS += -DCC_HAVE_ASM_GOTO    
 endif
+KBUILD_CFLAGS += -fPIC
+KBUILD_AFLAGS += -fPIC
 
 include scripts/Makefile.kcov
 include scripts/Makefile.gcc-plugins
@@ -918,7 +920,9 @@ lto-clang-flags += -fvisibility=default $(call cc-option, -fsplit-lto-unit)
 LD_FLAGS_LTO_CLANG := -mllvm -import-instr-limit=5
 
 KBUILD_LDFLAGS += $(LD_FLAGS_LTO_CLANG)
+KBUILD_LDFLAGS += -Wl,-z,relro -Wl,-z,now
 KBUILD_LDFLAGS_MODULE += $(LD_FLAGS_LTO_CLANG)
+
 
 KBUILD_LDFLAGS_MODULE += -T scripts/module-lto.lds
 
